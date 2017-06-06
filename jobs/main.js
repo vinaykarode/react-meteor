@@ -1,7 +1,9 @@
 import Expo from 'expo';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {Provider} from 'react-redux'
 
+import store from './store'
 import {TabNavigator, StackNavigator} from 'react-navigation'
 import AuthScreen from './screens/AuthScreen'
 import DeckScreen from './screens/DeckScreen'
@@ -11,7 +13,7 @@ import ReviewScreen from './screens/ReviewScreen'
 import SettingsScreen from './screens/SettingsScreen'
 
 const MainNavigator = TabNavigator({
-  welcome:{screen:ReviewScreen},
+  welcome:{screen:WelcomeScreen},
   auth:{screen:AuthScreen},
   main:{
     screen:TabNavigator({
@@ -32,7 +34,9 @@ const MainNavigator = TabNavigator({
 class App extends React.Component {
   render() {
     return (
+      <Provider store={store}>
         <MainNavigator />
+      </ Provider>
     );
   }
 }
