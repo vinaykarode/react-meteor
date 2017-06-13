@@ -2,44 +2,62 @@ import React, {Component} from 'react'
 import {
 	View, 
 	Text, 
-	StyleSheet
+	StyleSheet,
+	ScrollView,
+	Animated,
+	PanResponder
 } from 'react-native'
 
+import {Card} from 'react-native-elements';
+import {Components} from 'expo';
+const {BlurView} =Components;
+
+const data=[
+  {id:1, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
+  {id:2, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
+  {id:3, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
+  {id:4, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
+  {id:5, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
+]
+
+
 class DeckScreen extends Component {
+	renderCard(){
+		return data.map((slide,index) => {
+			return(
+				<View key={slide.id} style={style.card}>
+					<Text>{slide.text}</Text>
+					<Text>{slide.text}</Text>
+				</View>
+			)
+		})
+	}
 	render(){
 		return (
-			<View style={style.container} >
-				<View 
-					shadowOpacity={ 0.1 } 
-					shadowRadius={ 10 }
-					style={style.cardView}
-				>
-					<Text>DeckScreen</Text>
-					<Text>DeckScreen</Text>
-					<Text>DeckScreen</Text>
-					<Text>DeckScreen</Text>
-					<Text>DeckScreen</Text>
-				</View>
-			</View>
+			<ScrollView contentContainerStyle={style.container} scrollEnabled={false}>
+				{this.renderCard()}
+			</ScrollView>
 		)
 	}
 }
 
 const style ={
 	container:{
-		flexDirection:'row',
-		flex:1,
 		alignItems:'center',
-		justifyContent:'center',
-		borderRadius:10,
+		justifyContent:'flex-start',	
+		backgroundColor:'whitesmoke'
 	},
-	cardView:{
-		backgroundColor:'red',
+	card:{
+		backgroundColor:'white',
 		transform: [
-			{rotateX:'-10deg'}
+			{rotateX:'-3deg'}
 		],
 		width:300,
+		height:150,
 		borderRadius:10,
+		margin:5,
+		alignItems:'center',
+		elevation:5
 	}
 }
 

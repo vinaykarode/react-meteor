@@ -13,6 +13,7 @@ import DeckScreen from './screens/DeckScreen';
 import SummaryScreen from './screens/SummaryScreen';
 import AuthScreen from './screens/AuthScreen';
 
+
 const MainNavigator = TabNavigator({
   deck:{screen:DeckScreen},
   summary:{screen:SummaryScreen},
