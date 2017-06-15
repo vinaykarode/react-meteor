@@ -15,7 +15,7 @@ import AuthScreen from './screens/AuthScreen';
 
 
 const MainNavigator = TabNavigator({
-  deck:{screen:DeckScreen},
+  // deck:{screen:DeckScreen},
   summary:{screen:SummaryScreen},
   // main:{
   //   screen:TabNavigator({
