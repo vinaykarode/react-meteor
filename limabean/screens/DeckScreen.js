@@ -9,8 +9,6 @@ import {
 } from 'react-native'
 
 import {Card} from 'react-native-elements';
-import {Components} from 'expo';
-const {BlurView} =Components;
 
 const data=[
   {id:1, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
@@ -22,19 +20,38 @@ const data=[
 
 
 class DeckScreen extends Component {
+	constructor(props){
+		super(props);
+		const animatedValue = []
+
+		data.forEach((value) => {
+			animatedValue[value.id] = new Animated.Value(0)
+		})
+
+		const animations = data.map((item) => {
+			return Animated.spring(animatedValue[item.id], {
+				toValue:1,
+				duration:500
+			})
+		})
+		Animated.stagger(100, animations).start()
+
+		this.state={animatedValue}
+	}
+
 	renderCard(){
 		return data.map((slide,index) => {
 			return(
-				<View key={slide.id} style={style.card}>
+				<Animated.View key={slide.id} style={[{transform:[{scale:this.state.animatedValue[slide.id]}]} ,style.card]}>
 					<Text>{slide.text}</Text>
 					<Text>{slide.text}</Text>
-				</View>
+				</Animated.View>
 			)
 		})
 	}
 	render(){
 		return (
-			<ScrollView contentContainerStyle={style.container} scrollEnabled={false}>
+			<ScrollView contentContainerStyle={style.container}>
 				{this.renderCard()}
 			</ScrollView>
 		)
@@ -49,15 +66,11 @@ const style ={
 	},
 	card:{
 		backgroundColor:'white',
-		transform: [
-			{rotateX:'-3deg'}
-		],
 		width:300,
 		height:150,
 		borderRadius:10,
 		margin:5,
 		alignItems:'center',
-		elevation:5
 	}
 }
 

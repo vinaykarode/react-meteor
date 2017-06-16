@@ -1,16 +1,22 @@
 import React, {Component} from 'react'
 import {View, Text} from 'react-native'
+import NavigationBar from 'react-native-navbar';
+
+const titleConfig = {
+	title: 'Hello, world',
+	style:{
+		color:'black'
+	}
+}
 
 class WelcomeScreen extends Component {
 	render(){
 		return (
-			<View>
-				<Text>WelcomeScreen</Text>
-				<Text>WelcomeScreen</Text>
-				<Text>WelcomeScreen</Text>
-				<Text>WelcomeScreen</Text>
-				<Text>WelcomeScreen</Text>
-			</View>
+			      <NavigationBar
+				    statusBar={{style: 'default'}}
+				    tintColor={'transparent'}
+				    title={titleConfig}
+			      />
 		)
 	}
 }
