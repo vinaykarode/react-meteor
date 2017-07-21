@@ -7,15 +7,13 @@ import {
 	Animated,
 	PanResponder
 } from 'react-native'
-
-import {Card} from 'react-native-elements';
+import NavigationBar from 'react-native-navbar';
+import {Card, Tile, Button} from 'react-native-elements';
+import Meteor from 'react-native-meteor';
 
 const data=[
-  {id:1, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
-  {id:2, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
-  {id:3, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
-  {id:4, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
-  {id:5, text:'Loren ipsum Loren ipsumLoren ipsumLoren ipsumLoren ipsumLoren ipsum'},
+  {id:1, text:'Top news now'},
+  {id:2, text:'Top news this week'},
 ]
 
 
@@ -38,13 +36,30 @@ class DeckScreen extends Component {
 
 		this.state={animatedValue}
 	}
-
+	fetchDataAndNavigate(text){
+		const {navigate} = this.props.navigation;
+		Meteor.call('news.newsNowTop', (err, results) => {
+			if(err){
+				console.log('error', error)
+			} else {
+				// this.setState({newsSevenDayTop:results})
+				navigate('summary',{text:text, results:results})
+				// console.log(results)
+			}
+		})
+	}
 	renderCard(){
+		
 		return data.map((slide,index) => {
 			return(
-				<Animated.View key={slide.id} style={[{transform:[{scale:this.state.animatedValue[slide.id]}]} ,style.card]}>
-					<Text>{slide.text}</Text>
-					<Text>{slide.text}</Text>
+				<Animated.View key={slide.id} style={[{transform:[{scale:this.state.animatedValue[slide.id]}]}]}>
+					<Button 
+						buttonStyle={style.card}
+						title={slide.text}
+						backgroundColor='white'
+						color='black'
+						onPress={this.fetchDataAndNavigate.bind(this,slide.text)}
+					/>
 				</Animated.View>
 			)
 		})
@@ -52,6 +67,10 @@ class DeckScreen extends Component {
 	render(){
 		return (
 			<ScrollView contentContainerStyle={style.container}>
+				<NavigationBar
+				    statusBar={{style: 'default'}}
+				    tintColor={'transparent'}
+			    />
 				{this.renderCard()}
 			</ScrollView>
 		)
@@ -62,10 +81,10 @@ const style ={
 	container:{
 		alignItems:'center',
 		justifyContent:'flex-start',	
-		backgroundColor:'whitesmoke'
+		backgroundColor:'whitesmoke',
+		flex:1
 	},
 	card:{
-		backgroundColor:'white',
 		width:300,
 		height:150,
 		borderRadius:10,
