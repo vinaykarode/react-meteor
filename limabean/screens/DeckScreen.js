@@ -12,8 +12,8 @@ import {Card, Tile, Button} from 'react-native-elements';
 import Meteor from 'react-native-meteor';
 
 const data=[
-  {id:1, text:'Top news now'},
-  {id:2, text:'Top news this week'},
+  {id:1, text:'Top news now', method:'news.newsNowTop'},
+  {id:2, text:'Top news this week', method:'news.newsSevenDayTop'},
 ]
 
 
@@ -36,14 +36,16 @@ class DeckScreen extends Component {
 
 		this.state={animatedValue}
 	}
+
 	fetchDataAndNavigate(text){
 		const {navigate} = this.props.navigation;
-		Meteor.call('news.newsNowTop', (err, results) => {
+		console.log(text)
+		Meteor.call(text, (err, results) => {
 			if(err){
 				console.log('error', error)
 			} else {
 				// this.setState({newsSevenDayTop:results})
-				navigate('summary',{text:text, results:results})
+				navigate('summary',{results:results})
 				// console.log(results)
 			}
 		})
@@ -52,13 +54,13 @@ class DeckScreen extends Component {
 		
 		return data.map((slide,index) => {
 			return(
-				<Animated.View key={slide.id} style={[{transform:[{scale:this.state.animatedValue[slide.id]}]}]}>
+				<Animated.View key={slide.id} style={[{transform:[{scale:this.state.animatedValue[slide.id]}]}, style.card]}>
 					<Button 
 						buttonStyle={style.card}
 						title={slide.text}
 						backgroundColor='white'
 						color='black'
-						onPress={this.fetchDataAndNavigate.bind(this,slide.text)}
+						onPress={this.fetchDataAndNavigate.bind(this,slide.method)}
 					/>
 				</Animated.View>
 			)
@@ -81,8 +83,6 @@ const style ={
 	container:{
 		alignItems:'center',
 		justifyContent:'flex-start',	
-		backgroundColor:'whitesmoke',
-		flex:1
 	},
 	card:{
 		width:300,
